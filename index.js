@@ -3,6 +3,9 @@ mongoose.set("strictQuery", true);
 
 //my models
 const DinoModel = require("./models/DinoModel");
+const CavemanModel = require("./models/CavemanModel");
+const { populate } = require("./models/DinoModel");
+
 mongoose
   .connect("mongodb://127.0.0.1/Jurassic-Park")
   .then(() => {
@@ -105,10 +108,31 @@ let dinoArray = [
 //   });
 
 //deleting from the DB
-DinoModel.findByIdAndDelete("63db8b6e7267d970ef21769b")
-  .then((deletedDino) => {
-    console.log("Is this working?", deletedDino);
-  })
-  .catch((err) => {
-    console.log("There was error creating the dino", err);
-  });
+// DinoModel.findByIdAndDelete("63db8b6e7267d970ef21769b")
+//   .then((deletedDino) => {
+//     console.log("Is this working?", deletedDino);
+//   })
+//   .catch((err) => {
+//     console.log("There was error creating the dino", err);
+//   });
+
+//create some cavemen
+const Josh = {
+  name: "Josh",
+  weapon: "smarts",
+  friends: [
+    "63dbb97680fb54fc74ed92e2",
+    "63dbb97680fb54fc74ed92e3",
+    "63dbb97680fb54fc74ed92e5",
+  ],
+};
+// CavemanModel.create(Josh)
+//   .then((caveman) => console.log("caveman created", caveman))
+//   .catch((err) => console.log(err));
+
+CavemanModel.find({ name: "Josh" })
+  .populate("friends")
+  .then((populatedCaveman) =>
+    console.log("Populated caveman", populatedCaveman)
+  )
+  .catch((err) => console.log(err));
